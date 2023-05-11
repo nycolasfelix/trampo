@@ -20,83 +20,83 @@ select *, datediff(now(), DtAquisicao) as dias_passados from llicenca;
 select *, upper(NomeSetor) as nome_maiusculo, lower(NomeSetor) as nome_minusculo  from lsetor;
 
 select * from lversao
-inner join lsoftware on lversao.idSOFTWARE_FK = lsoftware.idSOFTWARE order by lsoftware.NomeSoftware asc;
+	inner join lsoftware on lversao.idSOFTWARE_FK = lsoftware.idSOFTWARE order by lsoftware.NomeSoftware asc;
 
 select idCLIENTE,Nome_RazaoSocial, se.NomeSetor,te.DescricaoTipo  from lcliente
-inner join ltipo_empresa AS te on te.idTIPO_Empresa = lcliente.idTIPO_Empresa_FK
-inner join lsetor as se on se.idSETOR = lcliente.idSETOR_FK order by te.DescricaoTipo asc;
+	inner join ltipo_empresa AS te on te.idTIPO_Empresa = lcliente.idTIPO_Empresa_FK
+	inner join lsetor as se on se.idSETOR = lcliente.idSETOR_FK order by te.DescricaoTipo asc;
 
 select DtAquisicao, ValorAquisicao, NumLicenca, cl.Nome_RazaoSocial, cl.idCLIENTE from llicenca
-inner join lcliente as cl on cl.idCLIENTE = llicenca.idCLIENTE_FK;
+	inner join lcliente as cl on cl.idCLIENTE = llicenca.idCLIENTE_FK;
 
 select cl.idCLIENTE, cl.Nome_RazaoSocial, NumLicenca, sf.NomeSoftware  from llicenca
-inner join lcliente as cl on cl.idCLIENTE = llicenca.idCLIENTE_FK
-inner join lsoftware as sf on sf.idSOFTWARE = llicenca.idSOFTWARE_FK_FK;
+	inner join lcliente as cl on cl.idCLIENTE = llicenca.idCLIENTE_FK
+	inner join lsoftware as sf on sf.idSOFTWARE = llicenca.idSOFTWARE_FK_FK;
 
 select * from lcliente as cl
-inner join lsetor as st on st.idSETOR = cl.idSETOR_FK 
-having cl.UF = 'SP' or 'RS' OR 'PR' or 'MG';
+	inner join lsetor as st on st.idSETOR = cl.idSETOR_FK 
+	having cl.UF = 'SP' or 'RS' OR 'PR' or 'MG';
 
  select sf.NomeSoftware, vs.Versao, cl.Nome_RazaoSocial, te.DescricaoTipo, st.NomeSetor, lc.NumLicenca, lc.DtAquisicao, lc.ValorAquisicao
- from llicenca as lc
- inner join lversao as vs on vs.Versao = lc.Versao_FK
- inner join lsoftware as sf on sf.idSOFTWARE = vs.idSOFTWARE_FK
- inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
- inner join ltipo_empresa as te on te.idTIPO_Empresa = cl.idTIPO_Empresa_FK
- inner join lsetor as st on st.idSETOR = cl.idSETOR_FK order by sf.NomeSoftware, vs.Versao, lc.DtAquisicao, cl.Nome_RazaoSocial;
+	 from llicenca as lc
+ 	inner join lversao as vs on vs.Versao = lc.Versao_FK
+	 inner join lsoftware as sf on sf.idSOFTWARE = vs.idSOFTWARE_FK
+ 	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+ 	inner join ltipo_empresa as te on te.idTIPO_Empresa = cl.idTIPO_Empresa_FK
+	 inner join lsetor as st on st.idSETOR = cl.idSETOR_FK order by sf.NomeSoftware, vs.Versao, lc.DtAquisicao, cl.Nome_RazaoSocial;
  
  select count(NumLicenca) as lic_vendida from llicenca;
  
  select sum(ValorAquisicao) as Soma_Valor, avg(ValorAquisicao) as Media_Valor,
-		max(ValorAquisicao) as Max_Valor, min(ValorAquisicao) as Min_Valor
- from llicenca;
+	max(ValorAquisicao) as Max_Valor, min(ValorAquisicao) as Min_Valor
+	from llicenca;
 
 select count(*) as total from lcliente as cl
-inner join lsetor as st on st.idSETOR = cl.idSETOR_FK
-where st.NomeSetor = 'Farmaceutica'; 
+	inner join lsetor as st on st.idSETOR = cl.idSETOR_FK
+	where st.NomeSetor = 'Farmaceutica'; 
 
 select cl.Nome_RazaoSocial, count(lc.NumLicenca) as num_licenca 
-from llicenca as lc
-inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
-group by cl.Nome_RazaoSocial
-order by cl.Nome_RazaoSocial asc;
+	from llicenca as lc
+	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+	group by cl.Nome_RazaoSocial
+	order by cl.Nome_RazaoSocial asc;
  
 select cl.Nome_RazaoSocial, sum(lc.ValorAquisicao) as Valor_Total, avg(lc.ValorAquisicao) as Valor_Medio 
-from llicenca as lc
-inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
-group by cl.Nome_RazaoSocial
-order by cl.Nome_RazaoSocial;
+	from llicenca as lc
+	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+	group by cl.Nome_RazaoSocial
+	order by cl.Nome_RazaoSocial;
 ;
 
 select st.NomeSetor, sum(lc.ValorAquisicao) as Valor_Total 
-from llicenca as lc
-inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
-inner join lsetor as st on st.idSETOR = cl.idSETOR_FK
-group by st.NomeSetor
-order by st.NomeSetor;
+	from llicenca as lc
+	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+	inner join lsetor as st on st.idSETOR = cl.idSETOR_FK
+	group by st.NomeSetor
+	order by st.NomeSetor;
 
 select tp.DescricaoTipo, sum(lc.ValorAquisicao) as Valor_Total 
-from llicenca as lc
-inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
-inner join ltipo_empresa as tp on tp.idTIPO_Empresa = cl.idTIPO_Empresa_FK
-group by tp.DescricaoTipo
-order by tp.DescricaoTipo;
+	from llicenca as lc
+	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+	inner join ltipo_empresa as tp on tp.idTIPO_Empresa = cl.idTIPO_Empresa_FK
+	group by tp.DescricaoTipo
+	order by tp.DescricaoTipo;
 
 select count(NumLicenca)as total_licen, NomeSoftware, cl.Nome_RazaoSocial  
-from llicenca as lc
-inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
-inner join ltipo_empresa as tp on tp.idTIPO_Empresa = cl.idTIPO_Empresa_FK
-inner join lversao as vs on vs.Versao = lc.Versao_FK
-inner join lsoftware as sf on sf.idSOFTWARE = vs.idSOFTWARE_FK
-group by cl.Nome_RazaoSocial ;
+	from llicenca as lc
+	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+	inner join ltipo_empresa as tp on tp.idTIPO_Empresa = cl.idTIPO_Empresa_FK
+	inner join lversao as vs on vs.Versao = lc.Versao_FK
+	inner join lsoftware as sf on sf.idSOFTWARE = vs.idSOFTWARE_FK
+	group by cl.Nome_RazaoSocial ;
 
 select tp.DescricaoTipo, sum(lc.ValorAquisicao) as Valor_Total 
-from llicenca as lc
-inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
-inner join ltipo_empresa as tp on tp.idTIPO_Empresa = cl.idTIPO_Empresa_FK
+	from llicenca as lc
+	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+	inner join ltipo_empresa as tp on tp.idTIPO_Empresa = cl.idTIPO_Empresa_FK
 
  select count(lc.NumLicenca) as total_licenca, cl.Nome_RazaoSocial
- from llicenca as lc
- inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
- group by cl.Nome_RazaoSocial
- having total_licenca > 10;
+ 	from llicenca as lc
+ 	inner join lcliente as cl on cl.idCLIENTE = lc.idCLIENTE_FK
+	group by cl.Nome_RazaoSocial
+	having total_licenca > 10;
