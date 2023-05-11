@@ -53,7 +53,7 @@ having cl.UF = 'SP' or 'RS' OR 'PR' or 'MG';
 
 select count(*) as total from lcliente as cl
 inner join lsetor as st on st.idSETOR = cl.idSETOR_FK
-where st.NomeSetor = 'Farmacautica'; /*farmacêutica esta escrito errado*/
+where st.NomeSetor = 'Farmaceutica'; 
 
 select cl.Nome_RazaoSocial, count(lc.NumLicenca) as num_licenca 
 from llicenca as lc
